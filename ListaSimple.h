@@ -36,10 +36,11 @@ private:
     NodoSimple *last;
     int size;
     bool isEmpty(){return size == 0;};
+    int getSize(){return size;};
 
 public:
 
-    ListaSimple
+    ListaSimple()
     {
 
     size = 0;
@@ -48,8 +49,8 @@ public:
 
     }
 
-    void getSize(){return size;}
     void push(Cancion *dato);
+    void print_front_back();
 
 };
 
@@ -58,19 +59,35 @@ void ListaSimple::push(Cancion *dato)
 
 if(isEmpty())
     {
-         NodoSimple *aux = new NodoSimple(dato);
+        NodoSimple *aux = new NodoSimple(dato);
         this->first = aux;
         this->last = aux;
         size++;
 
     } else
     {
-        NodoCola *aux = new NodoCola(dato);
+        NodoSimple *aux = new NodoSimple(dato);
         this->last->setNext(aux);
         this->last = aux;
         size++;
 
     }
+
+}
+
+void ListaSimple::print_front_back()
+{
+
+        NodoSimple *aux = this->first; //empieza apuntando al primero par recorrer
+        int x = 0;
+        while(x != this->size){ // para hasta que se recorra toda la lista 1 vez
+
+            if(x == this->size){ break;}
+            cout<<aux->getCancion()->getName()<<endl; // obtiene e imprime los datos
+            aux = aux ->getNext(); // apunta al siguiente para recorrer
+            x++;
+        }
+
 
 }
 

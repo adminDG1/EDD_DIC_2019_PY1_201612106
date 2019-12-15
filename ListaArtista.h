@@ -25,7 +25,7 @@ public:
     void setNext(Nodo *n){next = n;}
     void setBefore(Nodo *n){before = n;}
     T getDato(){ return dato;}
-    string getName(){return name};
+    string getName(){return name;};
 
 
 private:

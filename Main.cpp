@@ -2,6 +2,10 @@
 #include <sstream>
 #include "Pila.h"
 #include "Cola.h"
+#include "Cancion.h"
+#include "Album.h"
+#include "ListaSimple.h"
+#include "matriz.h"
 
 using namespace std;
 
@@ -25,4 +29,25 @@ int main(){
     c->dequeue();
     c->printCola();
     cout<<endl;
+    cout<<endl;
+
+    Cancion *ca = new Cancion("Paradise",5,"Paradise.mp3");
+    Cancion *ca2 = new Cancion("Lay to me",4,"LTM.mp3");
+    cout<<ca->getName()<<":"<<ca->getRating()<<endl;
+    cout<<endl;
+    cout<<endl;
+
+    ListaSimple *ls = new ListaSimple();
+    ls->push(ca);
+    ls->push(ca2);
+    //ls->print_front_back();
+
+    Album *a = new Album("album1","julio",2015,ls);
+    cout<<a->getName()<<endl;
+    cout<<"Contenido album:"<<endl;
+    a->getLista()->print_front_back();
+    cout<<endl;
+    cout<<endl;
+    Matriz *ma = new Matriz();
+
 }
