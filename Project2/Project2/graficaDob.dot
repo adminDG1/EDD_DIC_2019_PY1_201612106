@@ -1,0 +1,8 @@
+digraph { 
+node[shape=box, width = 2.5, height = .75 ]; 
+Aila->Bila
+Bila->Aila
+Bila->Fila
+Fila->Bila
+
+}
