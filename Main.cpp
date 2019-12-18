@@ -7,6 +7,7 @@
 #include "ListaSimple.h"
 #include "matriz.h"
 #include "PlayList.h"
+#include "ListaArtista.h"
 
 using namespace std;
 
@@ -51,6 +52,18 @@ int main(){
     cout<<endl;
     Matriz *ma = new Matriz();
 
+    Artista *ar = new Artista("pedro",ma);
+
+    ListaDoble *doble = new ListaDoble();
+    doble->add_first(ar,ar->getName());
+    doble->print_front_back();
+
   //  arbol<*estructuras> *hn = new arbol<*estructuras>();
 
+  ListaCircular<Artista> *hn = new ListaCircular<Artista>();
+  hn->add_first(ar);
+  Artista *primero = hn->get_element_at(0);
+  cout<<"Primero:"<<hn->get_element_at(0)->getName()<<endl;
+
 }
+

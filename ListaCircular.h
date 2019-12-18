@@ -13,7 +13,7 @@ class ListaCircular
     class Nodo{
 
 public:
-    Nodo(T x)
+    Nodo(T *x)
     {
 
         next = 0;
@@ -26,12 +26,12 @@ public:
     Nodo *getBefore(){return before;}
     void setNext(Nodo *n){next = n;}
     void setBefore(Nodo *n){before = n;}
-    T getDato(){ return dato;}
+    T *getDato(){ return dato;}
 
 private:
     Nodo *next;
     Nodo *before;
-    T dato;
+    T *dato;
 
     };
 
@@ -53,10 +53,10 @@ public:
     int getsize(){return size;}
     /*aqui se inicializan los metodos que usaremos
       para  la Hoja de trabajo1*/
-    void add_first(T dato);
-    void add_last(T dato);
-    void add_at(T dato, int index);
-    T get_element_at(int index);
+    void add_first(T *dato);
+    void add_last(T *dato);
+    void add_at(T *dato, int index);
+    T *get_element_at(int index);
     T print_front_back();
     T print_back_front();
     T graph();
@@ -64,7 +64,7 @@ public:
 
 
 template <class T>
-void ListaCircular<T>::add_first(T dato)
+void ListaCircular<T>::add_first(T *dato)
 {
 Nodo *n = new Nodo(dato);
 //En el siguiente if else is esta vacia la lista agregamos el nodo y sera el primero y el ultimo
@@ -89,7 +89,7 @@ if (isEmpty())
 }
 }
 template <class T >
-void ListaCircular<T>::add_last(T dato)
+void ListaCircular<T>::add_last(T *dato)
 {
     Nodo *n = new Nodo(dato);
 
@@ -115,7 +115,7 @@ void ListaCircular<T>::add_last(T dato)
 }
 
 template <class T>
-void ListaCircular<T>::add_at(T dato, int index)
+void ListaCircular<T>::add_at(T *dato, int index)
 {
     if(index > 0 && index <= this-> size)
     {
@@ -142,16 +142,16 @@ void ListaCircular<T>::add_at(T dato, int index)
 }
 
 template <class T>
-T ListaCircular <T>::get_element_at(int index)
+T *ListaCircular<T>::get_element_at(int index)
 {
 
-    if(index >= 0 && index< size)
+    if(index >= 0 && index< this->getsize())
     {
         Nodo *iterador = this->first; // nos ayudara a recorrer la lista
         int x = 0;
         while(iterador != 0)
         {
-            if(index == x){ return iterador->getDato(); break;} //al encontrar el dato de ese nodo
+            if(index == x){ return iterador->getDato();} //al encontrar el dato de ese nodo
             iterador = iterador->getNext();// continua hasta que se cumpla la condicion o con un break
             x++;
         }

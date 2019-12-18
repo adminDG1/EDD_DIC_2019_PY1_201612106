@@ -2,15 +2,18 @@
 #define LISTAARTISTA_H_INCLUDED
 
 #include <iostream>
+#include <bits/stdc++.h>
+#include "Artista.h"
+
 using namespace std;
 
-template <class T>
+
 class ListaDoble
 {
     class Nodo{
 
 public:
-    Nodo(T x, string name_)
+    Nodo(Artista *x, string name_)
     {
 
         next = 0;
@@ -24,14 +27,14 @@ public:
     Nodo *getBefore(){return before;}
     void setNext(Nodo *n){next = n;}
     void setBefore(Nodo *n){before = n;}
-    T getDato(){ return dato;}
+    Artista *getDato(){ return dato;}
     string getName(){return name;};
 
 
 private:
     Nodo *next;
     Nodo *before;
-    T dato;
+    Artista *dato;
     string name;
 
     };
@@ -52,23 +55,23 @@ public:
     }
 
     int getsize(){return size;}
-    void add_first(T dato, string name);
-    void add_last(T dato, string name);
-    void add_at(T dato, int index);
-    T get_element_at(int index);
+    void add_first(Artista *dato, string name);
+    void add_last(Artista *dato, string name);
+    void add_at(Artista *dato,string name , int index);
+    Artista *get_element_at(int index);
 
-    T remove_first();
-    T remove_last();
-    T remove_at(int index);
-    T print_front_back();
+    Artista remove_first();
+    Artista remove_last();
+    Artista remove_at(int index);
+    Artista print_front_back();
 
-    void addOrder(string name);
+    void addOrder(Artista *dato, string name);
     int ordenAlfabetico(string name);
 
 };
 
-template <class T>
-int ListaDoble<T>::ordenAlfabetico(string name)
+
+int ListaDoble::ordenAlfabetico(string name)
 {
 
  char stringsep[90];
@@ -85,28 +88,76 @@ int ListaDoble<T>::ordenAlfabetico(string name)
 
     return 2;
 
+ }else if (stringsep[0] == 'd' || stringsep[0] == 'D'){
+
+    return 3;
+
+ }else if (stringsep[0] == 'e' || stringsep[0] == 'E'){
+
+    return 4;
+
+ }else if (stringsep[0] == 'f' || stringsep[0] == 'F'){
+
+    return 5;
+
+ }else if (stringsep[0] == 'g' || stringsep[0] == 'G'){
+
+    return 6;
+
+ }else if (stringsep[0] == 'h' || stringsep[0] == 'H'){
+
+    return 7;
+
+ }else if (stringsep[0] == 'i' || stringsep[0] == 'I'){
+
+    return 8;
+
+ }else if (stringsep[0] == 'j' || stringsep[0] == 'J'){
+
+    return 9;
+
+ }else if (stringsep[0] == 'k' || stringsep[0] == 'K'){
+
+    return 10;
+
+ }else if (stringsep[0] == 'l' || stringsep[0] == 'L'){
+
+    return 11;
+
+ }else if (stringsep[0] == 'm' || stringsep[0] == 'M'){
+
+    return 12;
+
+ }else if (stringsep[0] == 'n' || stringsep[0] == 'N'){
+
+    return 13;
+
+ }else if (stringsep[0] == 'ñ' || stringsep[0] == 'Ñ'){
+
+    return 14;
+
  }
 
 }
 
-template <class T>
-void ListaDoble<T>::addOrder(T dato, string name)
+
+void ListaDoble::addOrder(Artista *dato, string name)
 {
 
     if(this->isEmpty()){
 
-        this->addFirst(dato , name));
+        this->add_first(dato , name);
 
 } else {
 
-    if(this->orderAlfabetico(name) > this->ordenAlfabetico(this->last->getName())){
+    if(ordenAlfabetico(name) > ordenAlfabetico(this->last->getName())){
 
 
-        this->addLast(dato, name);
+        this->add_last(dato, name);
 
-    } else if(this->orderAlfabetico(name) < this->ordenAlfabetico(this->first->getName())){
+    } else if(ordenAlfabetico(name) < ordenAlfabetico(this->first->getName())){
 
-        this->addFirst(dato, name);
+        this->add_first(dato, name);
 
     } else{
 
@@ -114,7 +165,7 @@ void ListaDoble<T>::addOrder(T dato, string name)
 
         while(temp != 0){
 
-            if(this->ordenAlfabetico(temp->getNext()->getName() >= this->ordenAlfabetico(name))){
+            if(this->ordenAlfabetico(temp->getNext()->getName()) >= this->ordenAlfabetico(name)){
 
                     Nodo *nuevo = new Nodo(dato, name);
                     nuevo->setNext(temp->getNext());
@@ -137,10 +188,10 @@ void ListaDoble<T>::addOrder(T dato, string name)
 
 }
 
-template <class T>
-void ListaDoble<T>::add_first(T dato)
+
+void ListaDoble::add_first(Artista *dato,string name)
 {
-Nodo *n = new Nodo(dato);
+Nodo *n = new Nodo(dato,name);
 if (isEmpty())
 {
     this ->first = n;
@@ -157,15 +208,15 @@ if (isEmpty())
 
 }
 }
-template <class T >
-void ListaDoble<T>::add_last(T dato)
+
+void ListaDoble::add_last(Artista *dato, string name)
 {
     if(isEmpty())
     {
-        this->add_first(dato);
+        this->add_first(dato, name);
     } else{
 
-    Nodo *n = new Nodo(dato);
+    Nodo *n = new Nodo(dato, name);
     this -> last ->setNext(n);
     n->setBefore(this->last);
     this -> last = n;
@@ -175,13 +226,13 @@ void ListaDoble<T>::add_last(T dato)
 
 }
 
-template <class T>
-void ListaDoble<T>::add_at(T dato, int index)
+
+void ListaDoble::add_at(Artista *dato,string name, int index)
 {
     if(index >= 0 && index <= this-> size)
     {
-        if(index == 0){this ->add_first(dato); return;}
-        if(index == this->size){this -> add_list(dato); return;}
+        if(index == 0){this ->add_first(dato,name); return;}
+        if(index == this->size){this -> add_last(dato,name); return;}
 
         Nodo *aux = this->first;
         int x = 0;
@@ -191,7 +242,7 @@ void ListaDoble<T>::add_at(T dato, int index)
             aux = aux -> getNext();
             x++;
         }
-        Nodo *n = new Nodo(dato);
+        Nodo *n = new Nodo(dato, name);
         aux -> getBefore()->setNext(n);
         n -> setBefore(aux->getBefore());
         n -> setNext(aux);
@@ -204,8 +255,8 @@ void ListaDoble<T>::add_at(T dato, int index)
 
 //Metodos para remover Nodos
 
-template <class T>
-T ListaDoble<T>::remove_first()
+
+Artista ListaDoble::remove_first()
 {
 
     if(!isEmpty())
@@ -234,8 +285,8 @@ T ListaDoble<T>::remove_first()
 }
 
 
-template <class T>
-T ListaDoble<T>::remove_last()
+
+Artista ListaDoble::remove_last()
 {
 
     if(!isEmpty())
@@ -266,8 +317,7 @@ T ListaDoble<T>::remove_last()
 
 
 
-template<class T>
-T ListaDoble<T>::remove_at(int index)
+Artista ListaDoble::remove_at(int index)
 {
 
     if(index >= 0 && index <= this-> size)
@@ -304,8 +354,8 @@ T ListaDoble<T>::remove_at(int index)
 
 }
 
-template <class T>
-T ListaDoble <T>::get_element_at(int index)
+
+Artista *ListaDoble::get_element_at(int index)
 {
 
     if(index >= 0 && index< size)
@@ -314,7 +364,7 @@ T ListaDoble <T>::get_element_at(int index)
         int x = 0;
         while(iterador != 0)
         {
-            if(index == x){ return iterador->getBefore()->getDato(); iterador -> getDato();}
+            if(index == x){ return iterador->getDato();}
             iterador = iterador->getNext();
             x++;
         }
@@ -322,8 +372,7 @@ T ListaDoble <T>::get_element_at(int index)
 
 }
 
-template <class T>
-T ListaDoble <T>::print_front_back()
+Artista ListaDoble::print_front_back()
 {
 
         Nodo *aux = this->first;
@@ -331,7 +380,7 @@ T ListaDoble <T>::print_front_back()
         while(x != this->size){
 
             if(x == this->size){ break;}
-            cout<<aux->getDato()<<endl;
+            cout<<aux->getName()<<endl;
             aux = aux -> getNext();
             x++;
         }

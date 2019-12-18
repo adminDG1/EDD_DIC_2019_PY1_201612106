@@ -19,7 +19,7 @@ private:
     string type;
     Pila *p;
     Cola *c;
-    ListaCircular *lc;
+   // ListaCircular *lc;
 
 public:
 
@@ -39,13 +39,17 @@ public:
         c = c_;
     }
 
-    PlayList(string name_, string type_,ListaCircular lc_)
-    {
+//    PlayList(string name_, string type_,ListaCircular lc_)
+   // {
 
-        name = name_;
-        type = type_;
-        lc = lc_;
-    }
+  //      name = name_;
+  //      type = type_;
+   //     lc = lc_;
+   // }
+
+
+
+
 
 
 

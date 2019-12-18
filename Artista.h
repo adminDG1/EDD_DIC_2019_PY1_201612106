@@ -9,8 +9,7 @@ private:
     string name;
     Matriz *matriz;
 
-    string getName(){return name;};
-    Matriz *getMatriz(){return matriz;};
+
 
 public:
     Artista(string name_,Matriz *matriz_)
@@ -20,6 +19,8 @@ public:
 
     }
 
+        string getName(){return name;};
+        Matriz *getMatriz(){return matriz;};
 
 };
 
