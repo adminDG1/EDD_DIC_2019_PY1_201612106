@@ -209,9 +209,9 @@ T ListaCircular <T>::graph()
 
 		if (x == this->size) { break; }
 		cout << aux->getDato() << "->" << aux->getNext()->getDato() << endl; // obtiene e imprime los datos
-		graf = graf + aux->getDato();
+		graf = graf + "\"" + aux->getDato()+ "\"";
 		graf = graf + "->";
-		graf = graf + aux->getNext()->getDato();
+		graf = graf + "\"" +aux->getNext()->getDato()+ "\"";
 		graf = graf + "\n";
 
 		aux = aux->getNext(); // apunta al siguiente para recorrer
@@ -224,9 +224,9 @@ T ListaCircular <T>::graph()
 
 		if (x == this->size) { break; }
 		cout << aux->getDato() << "->" << aux->getBefore()->getDato() << endl;// imprime
-		graf = graf + aux->getDato();
+		graf = graf + "\"" + aux->getDato()+ "\"";
 		graf = graf + "->";
-		graf = graf + aux->getBefore()->getDato();
+		graf = graf + "\"" + aux->getBefore()->getDato()+ "\"";
 		graf = graf + "\n";
 
 		aux = aux->getBefore();// apunta al anterior para recorrer

@@ -3,6 +3,7 @@
 #define COLA_H_INCLUDED
 
 #include <iostream>
+#include "Cancion.h"
 using namespace std;
 
 class Cola
@@ -14,11 +15,11 @@ class Cola
 	private:
 
 		NodoCola *before;
-		string cancion;
+		Cancion *cancion;
 
 	public:
 
-		NodoCola(string cancion_)
+		NodoCola(Cancion *cancion_)
 		{
 
 			before = 0;
@@ -27,9 +28,8 @@ class Cola
 		}
 
 		NodoCola *getbefore() { return before; }
-		NodoCola *setbefore(NodoCola *before_) { before = before_; }
-		string getCancion() { return cancion; };
-
+		void setbefore(NodoCola *before_) { before = before_; }
+		Cancion *getCancion() { return cancion; };
 
 	};
 
@@ -48,13 +48,14 @@ public:
 
 	}
 
-	void enqueue(string cancion);
+	void enqueue(Cancion *cancion);
 	void dequeue();
 	void printCola();
+	void graph();
 
 };
 
-void Cola::enqueue(string cancion)
+void Cola::enqueue(Cancion *cancion)
 {
 
 	if (isEmpty())
@@ -106,6 +107,47 @@ void Cola::printCola()
 		aux = aux->getbefore();// apunta al anterior para recorrer
 		x++;
 	}
+
+
+}
+
+void Cola::graph()
+{
+	NodoCola *aux = this->first;
+	string graf = "digraph { \n";
+	graf = graf + "node[shape=box, width = 2.5, height = .75 ]; \n";
+
+	//cout << " digraph {" << endl;
+	//cout << "node[shape=box, width = 2.5, height = .75 ];" << endl;
+
+
+	
+		while (aux != 0) { // para hasta que se recorra toda la lista 1 vez
+						   //cout << "entro" << endl;
+			if (aux->getbefore() == 0) { graf = graf + "\n"; break; };
+			//cout << aux->getName() << "->" << aux->getNext()->getName() << endl; // obtiene e imprime los datos
+			graf = graf +"\""+ aux->getCancion()->getName()+ "\"";
+			graf = graf + "->";
+			graf = graf + "\"" + aux->getbefore()->getCancion()->getName()+ "\"";
+			graf = graf + "\n";
+			graf = graf + "\n";
+
+			aux = aux->getbefore(); // apunta al siguiente para recorrer
+									//x++;
+		}
+	
+
+	  //cout << endl;
+	  //cout << "}" << endl; //el final del dot
+	graf = graf + "\n";
+	graf = graf + "}";
+
+	ofstream g("graficaCola.dot");
+	//cout << graf << endl;
+	g << graf;
+	g.close();
+	system("dot -Tpng graficaCola.dot -o grafCola.png");
+	system("grafCola.png");
 
 
 }

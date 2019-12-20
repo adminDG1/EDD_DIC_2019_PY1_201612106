@@ -1,0 +1,7 @@
+digraph { 
+node[shape=box, width = 2.5, height = .75 ]; 
+"Blinded"->"Shaped by Fire"
+
+
+
+}

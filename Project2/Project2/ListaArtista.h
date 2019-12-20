@@ -311,13 +311,14 @@ T *ListaDoble <T>::get_element_at(int index)
 template <class T>
 void ListaDoble <T>::print_front_back()
 {
-
+	cout << endl;
 	Nodo *aux = this->first; //empieza apuntando al primero par recorrer
 	int x = 0;
 	while (x != this->size) { // para hasta que se recorra toda la lista 1 vez
 
 		if (x == this->size) { break; }
-		cout << aux->getName() << endl; // obtiene e imprime los datos
+		
+		cout <<x<<": "<<aux->getName() << endl; // obtiene e imprime los datos
 		aux = aux->getNext(); // apunta al siguiente para recorrer
 		x++;
 	}
@@ -402,30 +403,29 @@ void ListaDoble<T>::graph()
 	//cout << " digraph {" << endl;
 	//cout << "node[shape=box, width = 2.5, height = .75 ];" << endl;
 
-	if (this->size == 1)
+	/*if (this->size == 1)
 	{
 		graf = graf + aux->getName();
 		//cout << aux->getName() << endl;
-	}
-	else {
+	}*/
+
 		while (aux != 0) { // para hasta que se recorra toda la lista 1 vez
 			//cout << "entro" << endl;
 			if (aux->getNext() == 0){  break;}
 			
 				//cout << aux->getName() << "->" << aux->getNext()->getName() << endl; // obtiene e imprime los datos
-				graf = graf + aux->getName();
+				graf = graf +"\""+ aux->getName()+"\"";
 				graf = graf + "->";
-				graf = graf + aux->getNext()->getName();
+				graf = graf +"\""+ aux->getNext()->getName()+"\"";
 				graf = graf + "\n";
-				graf = graf + aux->getNext()->getName();
+				graf = graf + "\""+aux->getNext()->getName()+"\"";
 				graf = graf + "->";
-				graf = graf + aux->getName();
+				graf = graf + "\""+aux->getName()+"\"";
 				graf = graf + "\n";
 		
 			aux = aux->getNext(); // apunta al siguiente para recorrer
 			//x++;
 		}
-	} //fin 
 
 	cout << endl;
 	cout << "}" << endl; //el final del dot

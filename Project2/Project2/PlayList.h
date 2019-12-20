@@ -8,6 +8,7 @@
 #include "Pila.h"
 #include "Cola.h"
 #include "ListaCircula.h"
+#include "ListaArtista.h"
 
 using namespace std;
 
@@ -24,7 +25,7 @@ private:
 
 public:
 
-	PlayList(string name_, string type_, Pila p_)
+	PlayList(string name_, string type_, Pila *p_)
 	{
 
 		name = name_;
@@ -32,7 +33,7 @@ public:
 		p = p_;
 	}
 
-	PlayList(string name_, string type_, Cola c_)
+	PlayList(string name_, string type_, Cola *c_)
 	{
 
 		name = name_;
@@ -40,6 +41,20 @@ public:
 		c = c_;
 	}
 
+	PlayList(string name_, string type_, ListaDoble *d_)
+	{
+
+		name = name_;
+		type = type_;
+		c = d_;
+	}
+	PlayList(string name_, string type_, ListaCircular *ci_)
+	{
+
+		name = name_;
+		type = type_;
+		c = ci_;
+	}
 	//    PlayList(string name_, string type_,ListaCircular lc_)
 	// {
 

@@ -3,6 +3,7 @@
 #define PILA_H_INCLUDED
 
 #include <iostream>
+#include "Cancion.h"
 using namespace std;
 
 class Pila
@@ -14,11 +15,11 @@ class Pila
 	private:
 
 		NodoPila *before;
-		string cancion;
+		Cancion *cancion;
 
 	public:
 
-		NodoPila(string cancion_)
+		NodoPila(Cancion *cancion_)
 		{
 
 			before = 0;
@@ -27,9 +28,8 @@ class Pila
 		}
 
 		NodoPila *getBefore() { return before; }
-		NodoPila *setBefore(NodoPila *before_) { before = before_; }
-		string getCancion() { return cancion; };
-
+		void setBefore(NodoPila *before_) { before = before_; }
+		Cancion *getCancion() { return cancion; };
 
 	};
 
@@ -46,13 +46,15 @@ public:
 
 	}
 
-	void push(string cancion);
+	void push(Cancion *cancion);
 	void pop();
 	void printPila();
 
+	void graph();
+
 };
 
-void Pila::push(string cancion)
+void Pila::push(Cancion *cancion)
 {
 
 	if (isEmpty())
@@ -99,10 +101,50 @@ void Pila::printPila()
 
 	while (aux != 0) { //recorre alrevez 1 vez
 
-		cout << x << ":" << aux->getCancion() << endl;// imprime
+		std::cout << x << ":" << aux->getCancion()->getName() << endl;// imprime
 		aux = aux->getBefore();// apunta al anterior para recorrer
 		x++;
 	}
+
+
+}
+
+void Pila::graph()
+{
+	NodoPila *aux = this->last;
+	string graf = "digraph { \n";
+	graf = graf + "node[shape=box, width = 2.5, height = .75 ]; \n";
+
+	//cout << " digraph {" << endl;
+	//cout << "node[shape=box, width = 2.5, height = .75 ];" << endl;
+
+	
+		while (aux != 0) { // para hasta que se recorra toda la lista 1 vez
+						   //cout << "entro" << endl;
+			if (aux->getBefore() == 0) { graf = graf + "\n"; break; };
+			//cout << aux->getName() << "->" << aux->getNext()->getName() << endl; // obtiene e imprime los datos
+			graf = graf +"\"" +aux->getCancion()->getName()+ "\"";
+			graf = graf + "->";
+			graf = graf + "\"" + aux->getBefore()->getCancion()->getName()+"\"";
+			graf = graf + "\n";
+			graf = graf + "\n";
+
+			aux = aux->getBefore(); // apunta al siguiente para recorrer
+								  //x++;
+		}
+
+
+	//cout << endl;
+	//cout << "}" << endl; //el final del dot
+	graf = graf + "\n";
+	graf = graf + "}";
+
+	ofstream g("graficaPila.dot");
+	//cout << graf << endl;
+	g << graf;
+	g.close();
+	system("dot -Tpng graficaPila.dot -o grafPila.png");
+	system("grafPila.png");
 
 
 }

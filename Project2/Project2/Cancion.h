@@ -23,9 +23,10 @@ public:
 	}
 
 	string getName() { return name; }
-	string setName(string n) { name = n; }
+	string getFile() { return file; }
+	void setName(string n) { name = n; }
 	int getRating() { return rating; }
-	int setRating(int r) { rating = r; }
+	void setRating(int r) { rating = r; }
 
 
 };

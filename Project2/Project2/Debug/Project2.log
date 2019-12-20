@@ -1,3 +1,5 @@
 ﻿  Source.cpp
-  Project2.vcxproj -> C:\Users\chana\Desktop\EstrucuturasVacasDiciembre2019\HojaDeTrabajo1\Project2\Debug\Project2.exe
-  Project2.vcxproj -> C:\Users\chana\Desktop\EstrucuturasVacasDiciembre2019\HojaDeTrabajo1\Project2\Debug\Project2.pdb (Partial PDB)
+c:\users\chana\desktop\estrucuturasvacasdiciembre2019\proyecto1\edd_dic_2019_py1_201612106\project2\project2\listaartista.h(309): warning C4715: 'ListaDoble<Artista>::get_element_at': no todas las rutas de acceso de control devuelven un valor
+c:\users\chana\desktop\estrucuturasvacasdiciembre2019\proyecto1\edd_dic_2019_py1_201612106\project2\project2\matriz.h(702): warning C4715: 'Matriz::obtenerNodo': no todas las rutas de acceso de control devuelven un valor
+  Project2.vcxproj -> C:\Users\chana\Desktop\EstrucuturasVacasDiciembre2019\Proyecto1\EDD_DIC_2019_PY1_201612106\Project2\Debug\Project2.exe
+  Project2.vcxproj -> C:\Users\chana\Desktop\EstrucuturasVacasDiciembre2019\Proyecto1\EDD_DIC_2019_PY1_201612106\Project2\Debug\Project2.pdb (Partial PDB)

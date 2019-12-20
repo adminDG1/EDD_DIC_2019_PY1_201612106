@@ -5,13 +5,497 @@
 #include <nlohmann/json.hpp>
 #include "Cancion.h"
 #include "ListaArtista.h"
+#include "Pila.h"
+#include "Cola.h"
+#include "ListaSimple.h"
+#include "ListaCircula.h"
+
+#include "Artista.h"
+#include "Album.h"
+#include "Cancion.h"
+#include "matriz.h"
+#include "PlayList.h"
+
 #include <cstdlib> 
 
 using json = nlohmann::json;
 using namespace std;
 
+class Menu
+{
+private:
+	ListaDoble<Artista> *ListArt;
+
+public:
+	Menu()
+	{
+	ListArt = new ListaDoble<Artista>();
+		PrintMenu();
+	}
+
+	void PrintMenu();
+	//1
+	void MenuLibrary();
+	void InsertarLibreria();
+	void MenuReportes();
+	
+
+};
+
+void Menu::MenuLibrary()
+{
+	int op;
+
+
+	cout << "                ---------------------------------------------MENU---------------------------------------------" << endl;
+	cout << endl;
+	cout << "                                    -               1 -  CargaLibreria               -" << endl;
+	cout << "                                    --------------------------------------------------" << endl;
+	cout << "                                    -               2 -  CargaPlayList              -" << endl;
+	cout << "                                    --------------------------------------------------" << endl;
+	cout << endl;
+	cout << "                3- Regresa Menu                                                       " << endl;
+	cout << endl;
+	cout << "                ----------------------------------------------------------------------------------------------" << endl;
+	cout << "\n";
+	cout << "                            INGRESE UNA OPCION   --->  ";
+	cin >> op;
+	cout << "\n";
+
+	// Verificar Opción Ingresada
+	switch (op) {
+
+	case 1:
+
+		system("cls");
+		cout << "\nCargandoLibreria -> 1" << endl;
+		InsertarLibreria();
+		MenuLibrary();
+		break;
+
+	case 2:
+
+		system("cls");
+		cout << "\nOpcion Ingresada -> 2" << endl;
+		break;
+
+	case 3:
+
+		system("cls");
+		PrintMenu();
+		break;
+
+	}
+	std::cin.get();
+
+}
+
+void Menu::PrintMenu() {
+
+	int op;
+
+
+	cout << "                ---------------------------------------------MENU---------------------------------------------" << endl;
+	cout<< endl;
+	cout << "                                    -               1 -  Carga                       -" << endl;
+	cout << "                                    --------------------------------------------------" << endl;
+	cout << "                                    -               2 -  Search Artista              -" << endl;
+	cout << "                                    --------------------------------------------------" << endl;
+	cout << "                                    -               2 -  Search Cancion              -" << endl;
+	cout << "                                    --------------------------------------------------" << endl;
+	cout << "                                    -               3 -  VerPlayLists                -" << endl;
+	cout << "                                    --------------------------------------------------" << endl;
+	cout << "                                    -               4 -  Reportes                    -" << endl;
+	cout << endl;
+	cout << "                ----------------------------------------------------------------------------------------------" << endl;
+	cout << "\n";
+	cout << "                            INGRESE UNA OPCION   --->  ";
+	cin >> op;
+	cout << "\n";
+
+		//variables case 2:
+
+
+
+	// Verificar Opción Ingresada
+		if (op == 1)
+		{
+
+			system("cls");
+			cout << "\nOpcion Ingresada -> 1" << endl;
+			MenuLibrary();
+		
+		}
+		else if (op == 2)
+		{
+			
+				system("cls");
+				cout << "-----------------Artistas-----------------" << endl;
+				ListArt->print_front_back();
+				cout << "-------------SeleccionaArtista------------" << endl;
+				int opArt;
+				cin >> opArt;
+				system("cls");
+				cout << "-----------------Albums-------------------" << endl;
+				ListArt->get_element_at(opArt)->getMatriz()->graph();
+				cout << endl;
+				cout << "-------------SeleccionaAlbum--------------" << endl;
+				cout << endl;
+				cin.ignore();
+				cout << "-------------IngresaNombre--------------" << endl;
+				string opAlbN;
+				getline(cin, opAlbN);
+				cout << endl;
+				cout << "-------------IngresaAno--------------" << endl;
+				int opAlbA;
+				cin >> opAlbA;
+				cout << endl;
+				cin.ignore();
+				cout << "-------------IngresaMes--------------" << endl;
+				string opAlbM;
+				getline(cin, opAlbM);
+				cout << endl;
+				system("cls");
+				//ListArt->get_element_at(0)->getMatriz()->obtenerNodo("Septiembre", 2019, "Shaped By Fire")->getAlbum()->getLista()->print_front_back();
+				ListArt->get_element_at(opArt)->getMatriz()->obtenerNodo(opAlbM, opAlbA, opAlbN)->getAlbum()->getLista()->print_front_back();//muestro canciones album
+				cout << endl;
+				cout << "-------------SeleccionaCancion--------------" << endl;
+				cout << endl;
+				cout << "-------------IngresaNombre--------------" << endl;
+				string opCanN;
+				getline(cin, opCanN);
+
+				ListArt->get_element_at(opArt)->getMatriz()->obtenerNodo(opAlbM, opAlbA, opAlbN)->getAlbum()->getLista()->printCancion(opCanN);//muestro canciones album
+				cout << endl;
+
+				getline(cin, opCanN);
+				PrintMenu();
+
+		}
+		else if (op == 3)
+		{
+			cout << "\nOpcion Ingresada -> 3" << endl;
+	
+		}
+		else if (op == 4)
+		{
+			cout << "\nOpcion Ingresada -> 4" << endl;
+	
+		}	else {}
+
+
+	std::cin.get();
+}
+
+
+void Menu::InsertarLibreria()
+{
+	////////////////////////////////////
+	//para leer al json
+
+	ifstream i("test.json");
+	json j;
+	i >> j; // paso todo el archivo a el json
+
+	json j2, j3, j4, jalbums, j5, j6, j7;
+
+	string albums;//guarda el  arreglo albums
+
+	Matriz *listMat;
+	ListaSimple *ListSim;
+
+	Artista *varArt;
+	Album *varAlb;
+
+
+	// special iterator member functions for objects
+	for (json::iterator it = j.begin(); it != j.end(); ++it) { //obtengo contenido de library
+
+	/*	std::cout << it.key() << "->" << it.value() << "\n";
+		cout << endl;
+		cout << endl;*/
+
+		j2 = it.value();
+	}
+
+/*	cout << j2 << endl;//imprimo el arreglo
+	cout << endl;
+	cout << endl;
+	*/
+
+
+	// iterate the array
+	for (json::iterator it = j2.begin(); it != j2.end(); ++it) //itero el arreglo obtengo artistas con json
+	{
+	/*	cout << "-----------------------------artistas con Json--------------------------" << endl;
+		std::cout << *it << "\n";
+		cout << endl;
+		*/
+		j3 = *it;//consigo los artistas;
+
+		for (json::iterator it2 = j3.begin(); it2 != j3.end(); ++it2)
+		{
+			string nameAlb = "art";//guardo el nombre del album
+			listMat = new Matriz();
+
+
+		//	std::cout << it2.value() << "\n";// obtengo albums y nombre artista en json
+			j4 = it2.value();
+			//cout << endl;
+		//	cout << endl;
+			for (json::iterator it3 = j4.begin(); it3 != j4.end(); ++it3) //obtengo los albums y el nombre separados del artista
+			{
+				//std::cout << it3.key() << "->" << it3.value() << "\n";
+				//cout << endl;
+				//cout << endl;
+
+				jalbums = it3.key(); // obtengo llave albums y llave name
+				//cout << endl;
+
+
+
+
+				if (jalbums.get_to(albums) == "Albums") // si la llave es igual a los albums //ya casteadas a string sin ""
+				{
+
+					//itero el array en it3.value()de los albums
+					for (json::iterator it4 = it3.value().begin(); it4 != it3.value().end(); ++it4) //obtengo los albums del artista separados 
+					{
+						ListSim = new ListaSimple(); //nuevo obj listaSim
+					//	std::cout << *it4 << "\n";
+						//cout << endl;
+						//cout << endl;
+						j5 = *it4;
+
+						string nameA;
+						string MonthA;
+						int yearA = 0;
+
+
+						for (json::iterator it5 = j5.begin(); it5 != j5.end(); ++it5) //obtengo las caracteristicas de el album
+						{															 // Month , Name , Songs , Year , Name
+							//std::cout << it5.key() << "->" << it5.value() << "\n";
+							//cout << endl;
+							//cout << endl;
+
+							j6 = it5.value();
+
+							if (it5.key() == "Songs") // obtengo el json de las canciones
+							{
+								for (json::iterator it6 = j6.begin(); it6 != j6.end(); ++it6) //obtengo el json de las canciones
+								{
+
+								//	cout << *it6 << endl;
+									//cout << endl;
+									j7 = *it6;
+
+									Cancion *can;
+									string nameCan;
+									string fileCan;
+									int ratCan;
+									for (json::iterator it7 = j7.begin(); it7 != j7.end(); ++it7) // obtengo los datos de las canciones 
+									{
+
+										if (it7.key() == "Name")
+										{
+										//	cout << "-----------------------------Name Cancion--------------------------" << endl;
+											//std::cout << it7.value() << "\n";
+											json nC = it7.value();
+											string strname;
+											nC.get_to(strname);
+											nameCan = strname;
+										}
+										else if (it7.key() == "File")
+										{
+											//cout << "----------------------------- File Cancion--------------------------" << endl;
+											//std::cout << it7.value() << "\n";
+											json nF = it7.value();
+											string strfile;
+											nF.get_to(strfile);
+											fileCan = strfile;
+
+										}
+										else if (it7.key() == "Rating")
+										{
+											//cout << "----------------------------- Rating Cancion--------------------------" << endl;
+											//std::cout << it7.value() << "\n";
+											json rat = it7.value();
+											string stringo;
+											rat.get_to(stringo);
+											ratCan = atoi(stringo.c_str());
+
+										}
+
+									}
+									can = new Cancion(nameCan, ratCan, fileCan);
+									ListSim->push(can);
+
+								}
+
+							}
+							else if (it5.key() == "Name") // else para Month , Name  , Year , Name del album
+							{
+								//cout << "-----------------------------Name Album--------------------------" << endl;
+								//cout << it5.value() << endl;
+								json rat = it5.value();
+								string strname;
+								rat.get_to(strname);
+								nameA = strname;
+
+							}
+							else if (it5.key() == "Month")
+							{
+								//cout << "-----------------------------Month Album--------------------------" << endl;
+								//cout << it5.value() << endl;
+								json rat = it5.value();
+								string strmonth;
+								rat.get_to(strmonth);
+								MonthA = strmonth;
+							}
+							else if (it5.key() == "Year")
+							{
+								//cout << "-----------------------------Year Album--------------------------" << endl;
+								//cout << it5.value() << endl;
+								json rat = it5.value();
+								string stryear;
+								rat.get_to(stryear);
+								yearA = atoi(stryear.c_str());
+							}
+
+						}
+						varAlb = new Album(nameA, MonthA, yearA, ListSim); //creo album
+						listMat->InsertarNodo(varAlb, yearA, MonthA);
+					}
+				}     //
+				else // else entra si el key no es Albums en Name, del artista
+				{
+
+					//cout << "-----------------------------Nombre Artista--------------------------" << endl;
+					//cout << it3.value() << endl;
+
+					json rat = it3.value();
+					string strname;
+					rat.get_to(strname);
+					nameAlb = strname;
+
+				}
+
+
+			}//fin for 2
+
+			varArt = new Artista(nameAlb, listMat); // guardo el artista
+			ListArt->addOrder(varArt, nameAlb);
+		} // fin for 1
+		//cout << endl;
+	}
+
+	//ListArt->graph();
+}//insertar Libreria
+
+void Menu::MenuReportes()
+{
+	int op;
+
+
+	cout << "                ---------------------------------------------MENU---------------------------------------------" << endl;
+	cout << endl;
+	cout << "                                    -               1 -  Artist                       -" << endl;
+	cout << "                                    --------------------------------------------------" << endl;
+	cout << "                                    -               2 -  Discography                  -" << endl;
+	cout << "                                    --------------------------------------------------" << endl;
+	cout << "                                    -               3 -  Album                        -" << endl;
+	cout << "                                    --------------------------------------------------" << endl;
+	cout << "                                    -               4 -  PlayList                     -" << endl;
+	cout << "                                    --------------------------------------------------" << endl;
+	cout << "                                    -               5 -  Top 5 Albums by Artist       -" << endl;
+	cout << "                                    --------------------------------------------------" << endl;
+	cout << "                                    -               6 -  Top 5 Artist                 -" << endl;
+	cout << "                                    --------------------------------------------------" << endl;
+	cout << endl;
+	cout << "                7 ->  RegresaMenu                                                      " << endl;
+	cout << endl;
+	cout << "                ----------------------------------------------------------------------------------------------" << endl;
+	cout << "\n";
+	cout << "                            INGRESE UNA OPCION   --->  ";
+	cin >> op;
+	cout << "\n";
+
+	// Verificar Opción Ingresada
+	switch (op) {
+
+	case 1:
+
+		try
+		{
+			ListArt->graph();
+		}
+		catch (const std::exception&)
+		{
+
+		}
+
+		break;
+
+	case 2:
+		
+		try
+		{
+			string opArt;
+			cin >> opArt;
+		}
+		catch (const std::exception&)
+		{
+
+		}
+		
+		break;
+
+	case 3:
+
+		system("cls");
+		cout << "\nOpcion Ingresada -> 3" << endl;
+		break;
+
+	case 4:
+
+		system("cls");
+		cout << "\nOpcion Ingresada -> 4" << endl;
+
+		break;
+	case 5:
+
+		system("cls");
+		cout << "\nOpcion Ingresada -> 5" << endl;
+		break;
+
+	case 6:
+
+		system("cls");
+		cout << "\nOpcion Ingresada -> 6" << endl;
+
+		break;
+
+	case 7:
+
+		system("cls");
+		cout << "\nOpcion Ingresada -> 7" << endl;
+		PrintMenu();
+		break;
+
+	default:
+		break;
+
+	}
+	std::cin.get();
+}
+
+
+
 int main()
 {
+	Menu *menu = new Menu();
+	/*
+	//PrintMenu();
 	ListaDoble<Cancion> *ld = new ListaDoble<Cancion>();
 	Cancion *c = new Cancion("Aila", 3, "file.mp3");
 	Cancion *c1 = new Cancion("Fila", 3, "file1.mp3");
@@ -20,250 +504,44 @@ int main()
 	ld->addOrder(c1, c1->getName());
 	ld->addOrder(c2, c2->getName());
 	ld->print_front_back();
-	ld->graph();
+	//ld->graph();
+
+	Pila *pi = new Pila();
+	pi->push(c);
+	pi->push(c1);
+	pi->push(c2);
+
+	Cola *col = new Cola();
+	col->enqueue(c);
+	col->enqueue(c1);
+	col->enqueue(c2);
+
+	ListaSimple *ls = new ListaSimple();
+	ls->push(c);
+	ls->push(c1);
+	ls->push(c2);
+	//ls->graph();
+	*/
+
 	/*
-	// a JSON value
-	json j_original = R"({
-  "baz": [{"bar":"b1"},{"bar1":"b1"}],
-  "foo": {"bar":"b","bar3":"h"}
-})"_json;
-
-	// access members with a JSON pointer (RFC 6901)
-	cout << j_original["/foo/bar3"_json_pointer] << endl;
-	cout << j_original["/baz/1/bar1"_json_pointer] << endl;
-	//cout<<j_original["baz/Name"]<<endl;
-	// "two"
-
-	// ]
-
-	// create a JSON object with different entry types
-	json js =
-	{
-		{ "integer", 1 },
-		{ "floating", 42.23 },
-		{ "string", "hello world" },
-		{ "boolean", true },
-		{ "object",{ { "key1", 1 },{ "key2", 2 } } },
-		{ "array",{ 1, 2, 3 } }
-	};
-
-	// access existing values
-	//int v_integer = j_original.value("foo", 0);
-	//cout << v_integer<<endl;
-
-	
-	cout << endl;
-
-
-
-	//
-
-	// create an array using push_back
-	json jd;
-	jd.push_back("foo");
-	jd.push_back(1);
-	jd.push_back(true);
-
-	// also use emplace_back
-	jd.emplace_back(1.78);
-	cout << jd << endl;
-
-	// iterate the array
-	for (json::iterator it = jd.begin(); it != jd.end(); ++it) {
-		std::cout << *it << '\n';
-	}
-
-	/* range-based for
-	for (auto& element : jd) {
-		std::cout << element << '\n';
-	}
-
-	// getter/setter
-	const auto tmp = jd[0].get<std::string>();
-	jd[1] = 42;
-	bool foo = jd.at(2);
-
-	// range-based for
-	for (auto& element : jd) {
-		std::cout << element << '\n';
-	} */
-	cout << endl;
-	cout << endl;
-
-	/////////////////////////////////////////////
-	/*
-	json o;
-	o["foo"] = 23;
-	o["bar"] = false;
-	o["baz"] = 3.141;
-
-	// also use emplace
-	o.emplace("weather", "sunny");
-
-	cout << o << endl;
-
-	// special iterator member functions for objects
-	for (json::iterator it = o.begin(); it != o.end(); ++it) {
-		std::cout << it.key() << " : " << it.value() << "\n";
-	}
-	cout << endl;
 	cout<<o["weather"]<<endl;
 	string stringo;
 	o["weather"].get_to(stringo);
 	cout << stringo << endl;
 	*/
 	
-	////////////////////////////////////
-	//para leer al json
-
-	ifstream i("test.json");
-	json j;
-	i >> j; // paso todo el archivo a el json
-
-	json j2;
-	json j3;
-	json j4;
-	json jalbums;
-	json j5;
-	json j6;
-	json j7;
-
-	string albums;//guarda el  arreglo albums
-	/*
-	string serialized_string = j.dump();
-	//cout << serialized_string << endl;
-	cout << endl;
-	cout << j["/Library/1/Artist/Name"_json_pointer] << endl;
-	cout << endl;
-	cout << endl; */
-
-	// special iterator member functions for objects
-	for (json::iterator it = j.begin(); it != j.end(); ++it) { //obtengo contenido de library
-
-		std::cout << it.key() << "->" << it.value() << "\n";
-		cout << endl;
-		cout << endl;
-
-		j2 = it.value();
-	}
-	cout << j2<<endl;//imprimo el arreglo
-	cout << endl;
-	cout << endl;
-
-	
-		// iterate the array
-		for (json::iterator it = j2.begin(); it != j2.end(); ++it) //itero el arreglo obtengo artistas con json
-		{
-			cout << "-----------------------------artistas con Json--------------------------" << endl;
-			std::cout << *it  << "\n";
-			cout << endl;
-			
-			j3 = *it;//consigo los artistas;
-			for (json::iterator it2 = j3.begin(); it2 != j3.end(); ++it2)
-			{
-				
-				std::cout  << it2.value() << "\n";// obtengo albums y nombre artista en json
-				j4 = it2.value();
-				cout << endl;
-				cout << endl;
-				for (json::iterator it3 = j4.begin(); it3 != j4.end(); ++it3) //obtengo los albums y el nombre separados del artista
-				{
-					std::cout << it3.key() << "->" << it3.value() << "\n";
-					cout << endl;
-					cout << endl;
-
-					jalbums = it3.key(); // obtengo llave albums y llave name
-					cout << endl;
-
-					if (jalbums.get_to(albums) == "Albums") // si la llave es igual a los albums //ya casteadas a string sin ""
-					{
-						//itero el array en it3.value()de los albums
-						for (json::iterator it4 = it3.value().begin(); it4 != it3.value().end(); ++it4) //obtengo los albums del artista separados 
-						{
-
-							std::cout << *it4 << "\n";
-							cout << endl;
-							cout << endl;
-							j5 = *it4;
-							for (json::iterator it5 = j5.begin(); it5 != j5.end(); ++it5) //obtengo las caracteristicas de el album
-							{															 // Month , Name , Songs , Year , Name
-								std::cout << it5.key() << "->" << it5.value() << "\n";
-								cout << endl;
-								cout << endl;
-
-								j6 = it5.value();
-
-								if (it5.key() == "Songs") // obtengo el json de las canciones
-								{
-									
-
-									for (json::iterator it6 = j6.begin(); it6 != j6.end(); ++it6) //obtengo el json de las canciones
-									{
-										
-										cout << *it6 << endl;
-										cout << endl;
-										j7 = *it6;
-										for (json::iterator it7 = j7.begin(); it7 != j7.end(); ++it7) // obtengo los datos de las canciones 
-										{
-											if (it7.key() == "Name")
-											{
-												cout << "-----------------------------Name Cancion--------------------------" << endl;
-												std::cout  << it7.value() << "\n";
-
-											}
-											else if(it7.key() == "File")
-											{
-												cout << "----------------------------- File Cancion--------------------------" << endl;
-												std::cout << it7.value() << "\n";
-
-											}
-											else if (it7.key() == "Rating")
-											{
-												cout << "----------------------------- Rating Cancion--------------------------" << endl;
-												std::cout << it7.value() << "\n";
-											}
-
-										}
-
-									}
-
-								} else if (it5.key() == "Name") // else para Month , Name  , Year , Name
-								{
-									cout << "-----------------------------Name Album--------------------------" << endl;
-									cout << it5.value() << endl;
-								}
-								else if (it5.key() == "Month")
-								{
-									cout << "-----------------------------Month Album--------------------------" << endl;
-									cout << it5.value() << endl;
-								}
-								else if (it5.key() == "Year")
-								{
-									cout << "-----------------------------Year Album--------------------------" << endl;
-									cout << it5.value() << endl;
-								}
-								
-							}
-
-						}
-					}     //
-					else // else entra si el key no es Albums en Name, del artista
-					{
-
-						cout << "-----------------------------Nombre Artista--------------------------" << endl;
-						cout <<it3.value()<< endl;
-
-					}
-				}//fin for 2
-
-			} // fin for 1
-			cout << endl;
-		} 
-
 		//cout << j3 << endl;
 
+		//ListArt->graph();
+
+//		ListArt->get_element_at(0)->getMatriz()->obtenerNodo("Septiembre",2019, "Shaped By Fire")->getAlbum()->getLista()->graph();
+
+		//listMat->graficar();
+		//ListSim->graph();
+		
 //-----------------------------------------------for para las playList---------------------------------------------------------------
 
+		/*
 		ifstream i2("Playlist_Rock.json");
 		json js0;
 		i2 >> js0; // paso todo el archivo a el json
@@ -337,8 +615,12 @@ int main()
 
 
 		}//fin for padre
+		*/
+
+
 
 	std::cin.get();
+		return 0;
 }
 
 
