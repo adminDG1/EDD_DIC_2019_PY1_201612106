@@ -1,6 +1,10 @@
 digraph { 
 node[shape=box, width = 2.5, height = .75 ]; 
-"As I Lay Dying"->"Underoath"
-"Underoath"->"As I Lay Dying"
+"Bring Me The Horizon"->"NF"
+"NF"->"Bring Me The Horizon"
+"NF"->"The Almost"
+"The Almost"->"NF"
+"The Almost"->"The Devil Wears Prada"
+"The Devil Wears Prada"->"The Almost"
 
 }

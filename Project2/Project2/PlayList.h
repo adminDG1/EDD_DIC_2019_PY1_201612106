@@ -12,7 +12,6 @@
 
 using namespace std;
 
-template <class T>
 class PlayList
 {
 
@@ -21,7 +20,9 @@ private:
 	string type;
 	Pila *p;
 	Cola *c;
-	// ListaCircular *lc;
+	ListaCircular<Cancion> *lc;
+	ListaDoble<Cancion> *ld;
+
 
 public:
 
@@ -41,19 +42,19 @@ public:
 		c = c_;
 	}
 
-	PlayList(string name_, string type_, ListaDoble *d_)
+	PlayList(string name_, string type_, ListaDoble<Cancion> *d_)
 	{
 
 		name = name_;
 		type = type_;
-		c = d_;
+		ld = d_;
 	}
-	PlayList(string name_, string type_, ListaCircular *ci_)
+	PlayList(string name_, string type_, ListaCircular<Cancion> *ci_)
 	{
 
 		name = name_;
 		type = type_;
-		c = ci_;
+		lc = ci_;
 	}
 	//    PlayList(string name_, string type_,ListaCircular lc_)
 	// {

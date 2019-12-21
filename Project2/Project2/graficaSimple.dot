@@ -1,6 +1,10 @@
 digraph { 
 node[shape=box, width = 2.5, height = .75 ]; 
-"Blinded"->"Shaped by Fire"
+"Can You Feel My Heart"->"The House of Wolves"
+
+"The House of Wolves"->"Sleepwalking"
+
+"Sleepwalking"->"Go To Hell For Heaven's Sake"
 
 
 

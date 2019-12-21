@@ -15,7 +15,7 @@
 #include "Cancion.h"
 #include "matriz.h"
 #include "PlayList.h"
-
+//#include "Arbol.h"
 #include <cstdlib> 
 
 using json = nlohmann::json;
@@ -26,7 +26,7 @@ class Menu
 private:
 	ListaDoble<Artista> *ListArt;
 	ListaDoble<Cancion> *ListBySon; // guarda todas las canciones
-
+	//Arbol *ListArb;
 
 public:
 	Menu()
@@ -42,7 +42,7 @@ public:
 	void InsertarLibreria();
 	void MenuReportes();
 	ListaDoble<Artista> *listaTopArt(ListaDoble<Artista> *list);
-
+	void insertarPlayList();
 
 };
 
@@ -271,7 +271,7 @@ void Menu::InsertarLibreria()
 	////////////////////////////////////
 	//para leer al json
 
-	ifstream i("test.json");
+	ifstream i("Library_test.json");
 	json j;
 	i >> j; // paso todo el archivo a el json
 
@@ -636,7 +636,91 @@ void Menu::MenuReportes()
 	std::cin.get();
 }
 
+void Menu::insertarPlayList()
+{
+	//-----------------------------------------------for para las playList---------------------------------------------------------------
 
+/*	PlayList *play;
+	Pila *pilaPlay;
+	Cola *colaplay;
+	ListaCircular<Cancion> *circularPlay;
+	ListaDoble<Cancion> *doblePlay;
+*/
+	ifstream i2("Playlist_Rock.json");
+	json js0;
+	i2 >> js0; // paso todo el archivo a el json
+	json js1;
+	json js2;
+
+
+	for (json::iterator it = js0.begin(); it != js0.end(); ++it) //for recibe json playList
+
+	{
+		if (it.key() == "Type")
+		{
+			cout << "-----------------------------TIPOPLayLIStss--------------------------" << endl;
+			if (it.value() == "Stack")
+			{
+				cout << it.value() << endl;
+			}
+
+			else if (it.value() == "Queue")
+			{
+				cout << it.value() << endl;
+			}
+			else if (it.value() == "Shuffle")
+			{
+				cout << it.value() << endl;
+			}
+			else if (it.value() == "Circular")
+			{
+				cout << it.value() << endl;
+			}
+		}
+		else if (it.key() == "Songs")
+		{
+			cout << "-----------------------------Songs PlayList--------------------------" << endl;
+			js1 = it.value();
+			for (json::iterator it1 = js1.begin(); it1 != js1.end(); ++it1) //for recibe json de las Canciones de la PlayList
+			{
+				cout << *it1 << endl;
+				js2 = *it1;
+				for (json::iterator it2 = js2.begin(); it2 != js2.end(); ++it2) // obttengo los datos del json
+				{
+					if (it2.key() == "Year")
+					{
+						cout << "-----------------------------Year Song--------------------------" << endl;
+						cout << it2.value() << endl;
+					}
+					else if (it2.key() == "Month")
+					{
+						cout << "-----------------------------Month song--------------------------" << endl;
+						cout << it2.value() << endl;
+					}
+					else if (it2.key() == "Album")
+					{
+						cout << "-----------------------------Album song--------------------------" << endl;
+						cout << it2.value() << endl;
+					}
+					else if (it2.key() == "Song")
+					{
+						cout << "-----------------------------song song--------------------------" << endl;
+						cout << it2.value() << endl;
+					}
+					else if (it2.key() == "Artist")
+					{
+						cout << "-----------------------------artista song--------------------------" << endl;
+						cout << it2.value() << endl;
+					}
+
+				}
+
+			}//fin for
+		}
+
+
+	}//fin for padre
+}
 
 int main()
 {
