@@ -55,6 +55,7 @@ public:
 	void print_front_back();
 	void graph();
 	void printCancion(string name);
+	//void addOrder(Cancion *cancion, string nombre);
 
 };
 
@@ -163,4 +164,56 @@ void ListaSimple::graph()
 
 }
 
+//agrega en orden
+/*
+void ListaSimple::addOrder(Cancion *dato, string name)
+{
+
+	if (this->isEmpty()) {
+
+		this->add_first(dato, name);
+
+	}
+	else {
+
+		if (ordenAlfabetico(name) > ordenAlfabetico(this->last->getName())) {
+
+
+			this->add_last(dato, name);
+
+		}
+		else if (ordenAlfabetico(name) < ordenAlfabetico(this->first->getName())) {
+
+			this->add_first(dato, name);
+
+		}
+		else {
+
+			Nodo *temp = this->first;
+
+			while (temp != 0) {
+
+				if (this->ordenAlfabetico(temp->getNext()->getName()) >= this->ordenAlfabetico(name)) {
+
+					Nodo *nuevo = new Nodo(dato, name);
+					nuevo->setNext(temp->getNext());
+					nuevo->setBefore(temp);
+					temp->getNext()->setBefore(nuevo);
+					temp->setNext(nuevo);
+					break;
+
+				}
+				temp = temp->getNext();
+
+
+			}
+
+			this->size++;
+
+		}
+
+	}
+
+}
+*/
 #endif // LISTASIMPLE_H_INCLUDED

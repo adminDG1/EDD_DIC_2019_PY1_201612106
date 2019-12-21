@@ -25,11 +25,13 @@ class Menu
 {
 private:
 	ListaDoble<Artista> *ListArt;
+	ListaDoble<Cancion> *ListBySon; // guarda todas las canciones
 
 public:
 	Menu()
 	{
 	ListArt = new ListaDoble<Artista>();
+	ListBySon = new ListaDoble<Cancion>;
 		PrintMenu();
 	}
 
@@ -42,53 +44,6 @@ public:
 
 };
 
-void Menu::MenuLibrary()
-{
-	int op;
-
-
-	cout << "                ---------------------------------------------MENU---------------------------------------------" << endl;
-	cout << endl;
-	cout << "                                    -               1 -  CargaLibreria               -" << endl;
-	cout << "                                    --------------------------------------------------" << endl;
-	cout << "                                    -               2 -  CargaPlayList              -" << endl;
-	cout << "                                    --------------------------------------------------" << endl;
-	cout << endl;
-	cout << "                3- Regresa Menu                                                       " << endl;
-	cout << endl;
-	cout << "                ----------------------------------------------------------------------------------------------" << endl;
-	cout << "\n";
-	cout << "                            INGRESE UNA OPCION   --->  ";
-	cin >> op;
-	cout << "\n";
-
-	// Verificar Opción Ingresada
-	switch (op) {
-
-	case 1:
-
-		system("cls");
-		cout << "\nCargandoLibreria -> 1" << endl;
-		InsertarLibreria();
-		MenuLibrary();
-		break;
-
-	case 2:
-
-		system("cls");
-		cout << "\nOpcion Ingresada -> 2" << endl;
-		break;
-
-	case 3:
-
-		system("cls");
-		PrintMenu();
-		break;
-
-	}
-	std::cin.get();
-
-}
 
 void Menu::PrintMenu() {
 
@@ -101,11 +56,11 @@ void Menu::PrintMenu() {
 	cout << "                                    --------------------------------------------------" << endl;
 	cout << "                                    -               2 -  Search Artista              -" << endl;
 	cout << "                                    --------------------------------------------------" << endl;
-	cout << "                                    -               2 -  Search Cancion              -" << endl;
+	cout << "                                    -               3 -  Search Cancion              -" << endl;
 	cout << "                                    --------------------------------------------------" << endl;
-	cout << "                                    -               3 -  VerPlayLists                -" << endl;
+	cout << "                                    -               4 -  VerPlayLists                -" << endl;
 	cout << "                                    --------------------------------------------------" << endl;
-	cout << "                                    -               4 -  Reportes                    -" << endl;
+	cout << "                                    -               5 -  Reportes                    -" << endl;
 	cout << endl;
 	cout << "                ----------------------------------------------------------------------------------------------" << endl;
 	cout << "\n";
@@ -174,19 +129,87 @@ void Menu::PrintMenu() {
 		}
 		else if (op == 3)
 		{
+			system("cls");
 			cout << "\nOpcion Ingresada -> 3" << endl;
-	
+			ListBySon->print_front_back();
+			cout << "-------------SeleccionaCancion------------" << endl;
+			int opArt;
+			cin >> opArt;
+			cout << endl;
+			cout << "-------------DatosCancion------------" << endl;
+			cout << endl;
+			cout << ListBySon->get_element_at(opArt)->getName()<< endl;
+			cout << endl;
+			cout << ListBySon->get_element_at(opArt)->getFile()<< endl;
+			cout << ListBySon->get_element_at(opArt)->getRating() << endl;
+			cout << "----------------------------------------" << endl;
+			std::cin.get();
+			PrintMenu();
 		}
 		else if (op == 4)
 		{
 			cout << "\nOpcion Ingresada -> 4" << endl;
 	
-		}	else {}
+		}
+		else if (op == 5)
+		{
+			cout << "\nOpcion Ingresada -> 5" << endl;
+			system("cls");
+			MenuReportes();
+		}
+		else {}
 
 
 	std::cin.get();
 }
 
+void Menu::MenuLibrary()
+{
+	int op;
+
+
+	cout << "                ---------------------------------------------MENU---------------------------------------------" << endl;
+	cout << endl;
+	cout << "                                    -               1 -  CargaLibreria               -" << endl;
+	cout << "                                    --------------------------------------------------" << endl;
+	cout << "                                    -               2 -  CargaPlayList              -" << endl;
+	cout << "                                    --------------------------------------------------" << endl;
+	cout << endl;
+	cout << "                3- Regresa Menu                                                       " << endl;
+	cout << endl;
+	cout << "                ----------------------------------------------------------------------------------------------" << endl;
+	cout << "\n";
+	cout << "                            INGRESE UNA OPCION   --->  ";
+	cin >> op;
+	cout << "\n";
+
+	// Verificar Opción Ingresada
+	switch (op) {
+
+	case 1:
+
+		system("cls");
+		cout << "\nCargandoLibreria -> 1" << endl;
+		InsertarLibreria();
+		MenuLibrary();
+		break;
+
+	case 2:
+
+		system("cls");
+		cout << "\nOpcion Ingresada -> 2" << endl;
+		break;
+
+	case 3:
+
+		system("cls");
+		PrintMenu();
+		break;
+
+	}
+	std::cin.get();
+
+}
 
 void Menu::InsertarLibreria()
 {
@@ -270,7 +293,7 @@ void Menu::InsertarLibreria()
 						string nameA;
 						string MonthA;
 						int yearA = 0;
-
+						int RatingA = 0;
 
 						for (json::iterator it5 = j5.begin(); it5 != j5.end(); ++it5) //obtengo las caracteristicas de el album
 						{															 // Month , Name , Songs , Year , Name
@@ -323,12 +346,14 @@ void Menu::InsertarLibreria()
 											string stringo;
 											rat.get_to(stringo);
 											ratCan = atoi(stringo.c_str());
-
+											RatingA = RatingA + ratCan;
 										}
 
 									}
 									can = new Cancion(nameCan, ratCan, fileCan);
+									
 									ListSim->push(can);
+									ListBySon->addOrder(can,nameCan);//guarda a una lista todas las canciones ordenadas
 
 								}
 
@@ -363,7 +388,7 @@ void Menu::InsertarLibreria()
 							}
 
 						}
-						varAlb = new Album(nameA, MonthA, yearA, ListSim); //creo album
+						varAlb = new Album(nameA, MonthA, yearA, ListSim,RatingA); //creo album
 						listMat->InsertarNodo(varAlb, yearA, MonthA);
 					}
 				}     //
@@ -420,6 +445,7 @@ void Menu::MenuReportes()
 	cin >> op;
 	cout << "\n";
 
+	int cont = 0;
 	// Verificar Opción Ingresada
 	switch (op) {
 
@@ -427,7 +453,9 @@ void Menu::MenuReportes()
 
 		try
 		{
+			system("cls");
 			ListArt->graph();
+			MenuReportes();
 		}
 		catch (const std::exception&)
 		{
@@ -440,8 +468,16 @@ void Menu::MenuReportes()
 		
 		try
 		{
-			string opArt;
+			system("cls");
+			cout << "-----------------Artistas-----------------" << endl;
+			ListArt->print_front_back();
+			cout << "-------------SeleccionaArtista------------" << endl;
+			int opArt;
 			cin >> opArt;
+			system("cls");
+			cout << "-----------------Albums-------------------" << endl;
+			ListArt->get_element_at(opArt)->getMatriz()->graficar();
+			MenuReportes();
 		}
 		catch (const std::exception&)
 		{
@@ -452,8 +488,42 @@ void Menu::MenuReportes()
 
 	case 3:
 
-		system("cls");
-		cout << "\nOpcion Ingresada -> 3" << endl;
+		try
+		{
+			system("cls");
+			cout << "-----------------Artistas-----------------" << endl;
+			ListArt->print_front_back();
+			cout << "-------------SeleccionaArtista------------" << endl;
+			int opArt;
+			cin >> opArt;
+			system("cls");
+			cout << "-----------------Albums-------------------" << endl;
+			ListArt->get_element_at(opArt)->getMatriz()->graph();
+			cout << endl;
+			cout << "-------------SeleccionaAlbum--------------" << endl;
+			cout << endl;
+			cin.ignore();
+			cout << "-------------IngresaNombre--------------" << endl;
+			string opAlbN;
+			getline(cin, opAlbN);
+			cout << endl;
+			cout << "-------------IngresaAno--------------" << endl;
+			int opAlbA;
+			cin >> opAlbA;
+			cout << endl;
+			cin.ignore();
+			cout << "-------------IngresaMes--------------" << endl;
+			string opAlbM;
+			getline(cin, opAlbM);
+			cout << endl;
+			system("cls");
+			ListArt->get_element_at(opArt)->getMatriz()->obtenerNodo(opAlbM, opAlbA, opAlbN)->getAlbum()->getLista()->graph();//muestro canciones album
+			MenuReportes();
+		}
+		catch (const std::exception&)
+		{
+
+		}
 		break;
 
 	case 4:
@@ -465,7 +535,26 @@ void Menu::MenuReportes()
 	case 5:
 
 		system("cls");
-		cout << "\nOpcion Ingresada -> 5" << endl;
+		cout << "-----------------Artistas-----------------" << endl;
+		ListArt->print_front_back();
+		cout << "-------------SeleccionaArtista------------" << endl;
+		int opArt;
+		cin >> opArt;
+
+		//cont = 0;
+		//while (cont <= 4)
+		
+	//	{	
+			//if (cont < ListArt->get_element_at(opArt)->getMatriz()->obtenerTop5()->getsize())
+		//	{
+//				cout << cont + 1 << ": " << ListArt->get_element_at(opArt)->getMatriz()->obtenerTop5()->get_element_at(cont)->getName() << ListArt->get_element_at(opArt)->getMatriz()->obtenerTop5()->get_element_at(cont)->getRating() << endl;
+		ListArt->get_element_at(opArt)->getMatriz()->obtenerTop5()->print_front_back();
+			//}
+			//cont++;
+		//}
+		cin >> opArt;
+		system("cls");
+		MenuReportes();
 		break;
 
 	case 6:

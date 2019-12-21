@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <sstream>
 #include <fstream>
+#include "ListaArtista.h"
 
 using namespace std;
 
@@ -454,7 +455,7 @@ public:
 		graf = graf + "node[shape=box3d, style=filled ]; \n";
 		// Recorrer Matriz
 		Nodo* tempX = cabecera;
-		cout << "entra a graficar" << endl;
+		//cout << "entra a graficar" << endl;
 		while (tempX != 0) // Recorrer Cada Nodo En X
 		{
 
@@ -700,6 +701,99 @@ public:
 		}
 
 	} //fin obtenerNodo
+
+	ListaDoble<Album> *obtenerTop5()
+	{
+		try
+		{
+
+			ListaDoble<Album> *ls = new ListaDoble<Album>();
+
+			Nodo* aux = this->cabecera->getSiguiente(); //empieza apuntando al primero par recorrer
+
+			while (aux != 0) { // recorre cabeceras en x
+
+
+				Nodo* aux2 = aux->getAbajo();
+				while (aux2 != 0) // recorrer en y 
+				{
+					int cast = aux2->getAño();
+					stringstream power;
+					power << cast;
+					string pepe = power.str(); //tendra el ano
+
+					/*cout << "Name: " << aux2->getAlbum()->getName() << endl;
+					cout << "Year: " << aux2->getAlbum()->getAno() << endl;
+					cout << "Month: " << aux2->getAlbum()->getMonth() << endl;
+					cout << "-------------------------------------------" << endl; */
+					
+					if (ls->getsize() == 0)
+					{
+						ls->add_at(aux2->getAlbum(),aux2->getAlbum()->getName(),0);
+					}
+					else{ 
+						int cont = 0;
+						while (cont <= ls->getsize())
+						{
+
+							if (cont == ls->getsize()) { ls->add_at(aux2->getAlbum(), aux2->getAlbum()->getName(),cont); break; }
+							if (aux2->getAlbum()->getRating() < ls->get_element_at(cont)->getRating())
+							{
+								ls->add_at(aux2->getAlbum(), aux2->getAlbum()->getName(),cont);
+								break;
+							}
+							
+							cont++;
+						}
+					}
+					
+					if (aux2->getAdelante() != 0) // recorre en z
+					{
+						Nodo* aux3 = aux2->getAdelante();
+						while (aux3 != 0)
+						{
+						/*	cout << "Name: " << aux3->getAlbum()->getName() << endl;
+							cout << "Year: " << aux3->getAlbum()->getAno() << endl;
+							cout << "Month: " << aux3->getAlbum()->getMonth() << endl;
+							cout << "-------------------------------------------" << endl; */
+							if (ls->getsize() == 0)
+							{
+								ls->add_at(aux3->getAlbum(), aux3->getAlbum()->getName(), 0);
+							}
+							else {
+								int cont = 0;
+								while (cont <= ls->getsize())
+								{
+
+									if (cont == ls->getsize()) { ls->add_at(aux3->getAlbum(), aux3->getAlbum()->getName(), cont); break; }
+									if (aux3->getAlbum()->getRating() < ls->get_element_at(cont)->getRating())
+									{
+										ls->add_at(aux3->getAlbum(), aux3->getAlbum()->getName(), cont);
+										break;
+									}
+
+									cont++;
+								}
+							}
+							aux3 = aux3->getAdelante();
+						}
+
+					} //fin if en z
+
+					aux2 = aux2->getAbajo();
+				}//fin while y
+
+				aux = aux->getSiguiente(); // apunta al siguiente para recorrer
+
+			}//fin while x
+			ls->print_front_back();
+			return ls;
+		}
+		catch (const std::exception&)
+		{
+		}
+
+	}
 
 };
 

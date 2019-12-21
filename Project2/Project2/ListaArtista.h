@@ -3,6 +3,7 @@
 #define ListaDoble_H_INCLUDED
 #include <iostream>
 #include <sstream>
+#include "Album.h"
 using namespace std;
 
 template <class T>
@@ -269,7 +270,7 @@ void ListaDoble<T>::add_at(T *dato,string name, int index)
 	if (index > 0 && index <= this->size)
 	{
 		if (index == 0) { this->add_first(dato,name); return; } // si agrega al inicio
-		if (index == this->size) { this->add_list(dato,name); return; } //para agregar al final
+		if (index == this->size) { this->add_last(dato,name); return; } //para agregar al final
 
 		Nodo *aux = this->first;
 		int x = 0;
@@ -427,13 +428,13 @@ void ListaDoble<T>::graph()
 			//x++;
 		}
 
-	cout << endl;
-	cout << "}" << endl; //el final del dot
+	//cout << endl;
+	//cout << "}" << endl; //el final del dot
 	graf = graf + "\n";
 	graf = graf + "}";
 
 	ofstream g("graficaDob.dot");
-	cout << graf << endl;
+	//cout << graf << endl;
 	g << graf;
 	g.close();
 	system("dot -Tpng graficaDob.dot -o grafDoble.png");
@@ -441,6 +442,8 @@ void ListaDoble<T>::graph()
 
 
 }
+
+
 
 #endif // ListaDoble_H_INCLUDED
 
