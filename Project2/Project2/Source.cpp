@@ -27,6 +27,7 @@ private:
 	ListaDoble<Artista> *ListArt;
 	ListaDoble<Cancion> *ListBySon; // guarda todas las canciones
 
+
 public:
 	Menu()
 	{
@@ -40,10 +41,64 @@ public:
 	void MenuLibrary();
 	void InsertarLibreria();
 	void MenuReportes();
-	
+	ListaDoble<Artista> *listaTopArt(ListaDoble<Artista> *list);
+
 
 };
 
+
+
+ListaDoble<Artista> *Menu::listaTopArt(ListaDoble<Artista> *list)
+{
+	ListaDoble<Artista> *listNueva = new ListaDoble<Artista>();
+	int x = 0;
+	string graf = "digraph { \n";
+	graf = graf + "node[shape=box, width = 2.5, height = .75 ]; \n";
+	while (x < list->getsize())
+	{
+		cout << "recorreViej" << endl;
+		cout << list->get_element_at(x)->getName()<<endl;
+
+		if (listNueva->getsize() == 0) {
+
+			listNueva->add_at(list->get_element_at(0), list->get_element_at(0)->getName(),0);
+			cout<<"anade a nueva: "<<listNueva->get_element_at(0)->getName()<<endl;
+		}
+		else {
+			int x1 = 0;
+			while(x1 <= listNueva->getsize())
+			{
+				cout << "RecorridoNuevo" << endl;
+				if (x1 == listNueva->getsize())
+				{
+					listNueva->add_at(list->get_element_at(x), list->get_element_at(x)->getName(),x1);
+				cout << "anade a nuevaFin: " << listNueva->get_element_at(0)->getName() << endl;
+				break;
+					
+				}//final
+				else {
+					if (list->get_element_at(x)->getRanking()  < listNueva->get_element_at(x1)->getRanking()) {
+
+						listNueva->add_at(list->get_element_at(x), list->get_element_at(x)->getName(),x1);
+						cout << "anade a nuevamedio: " << listNueva->get_element_at(0)->getName() << endl;
+						break;
+					}
+					else if (list->get_element_at(x)->getRanking()  == listNueva->get_element_at(x1)->getRanking())
+					{
+						listNueva->add_at(list->get_element_at(x), list->get_element_at(x)->getName(), x1);
+						cout << "anade a nuevaigual: " << listNueva->get_element_at(0)->getName() << endl;
+						break;
+					}
+				}
+
+				x1++;
+		}
+		}
+
+		x++;
+	}
+	return listNueva;
+}
 
 void Menu::PrintMenu() {
 
@@ -260,7 +315,7 @@ void Menu::InsertarLibreria()
 		{
 			string nameAlb = "art";//guardo el nombre del album
 			listMat = new Matriz();
-
+			int rankA = 0;
 
 		//	std::cout << it2.value() << "\n";// obtengo albums y nombre artista en json
 			j4 = it2.value();
@@ -388,7 +443,9 @@ void Menu::InsertarLibreria()
 							}
 
 						}
+						rankA = rankA + RatingA;//rankA guarda rank artista
 						varAlb = new Album(nameA, MonthA, yearA, ListSim,RatingA); //creo album
+						cout << RatingA << endl;
 						listMat->InsertarNodo(varAlb, yearA, MonthA);
 					}
 				}     //
@@ -408,7 +465,7 @@ void Menu::InsertarLibreria()
 
 			}//fin for 2
 
-			varArt = new Artista(nameAlb, listMat); // guardo el artista
+			varArt = new Artista(nameAlb, listMat,rankA); // guardo el artista
 			ListArt->addOrder(varArt, nameAlb);
 		} // fin for 1
 		//cout << endl;
@@ -540,7 +597,7 @@ void Menu::MenuReportes()
 		cout << "-------------SeleccionaArtista------------" << endl;
 		int opArt;
 		cin >> opArt;
-
+		cout << "------------------------------------------" << endl;
 		//cont = 0;
 		//while (cont <= 4)
 		
@@ -548,7 +605,7 @@ void Menu::MenuReportes()
 			//if (cont < ListArt->get_element_at(opArt)->getMatriz()->obtenerTop5()->getsize())
 		//	{
 //				cout << cont + 1 << ": " << ListArt->get_element_at(opArt)->getMatriz()->obtenerTop5()->get_element_at(cont)->getName() << ListArt->get_element_at(opArt)->getMatriz()->obtenerTop5()->get_element_at(cont)->getRating() << endl;
-		ListArt->get_element_at(opArt)->getMatriz()->obtenerTop5()->print_front_back();
+		ListArt->get_element_at(opArt)->getMatriz()->obtenerTop5()->graph_back_front();
 			//}
 			//cont++;
 		//}
@@ -560,8 +617,9 @@ void Menu::MenuReportes()
 	case 6:
 
 		system("cls");
-		cout << "\nOpcion Ingresada -> 6" << endl;
-
+		
+		listaTopArt(ListArt)->graph_back_front_Art();
+		MenuReportes();
 		break;
 
 	case 7:

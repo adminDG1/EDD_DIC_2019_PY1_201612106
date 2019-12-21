@@ -67,6 +67,8 @@ public:
 	void addOrder(T *dato, string name);
 	int ordenAlfabetico(string name);
 	void graph();
+	void graph_back_front();
+	void graph_back_front_Art();
 
 };
 
@@ -267,7 +269,7 @@ void ListaDoble<T>::add_last(T *dato, string name)
 template <class T>
 void ListaDoble<T>::add_at(T *dato,string name, int index)
 {
-	if (index > 0 && index <= this->size)
+	if (index <= this->size)
 	{
 		if (index == 0) { this->add_first(dato,name); return; } // si agrega al inicio
 		if (index == this->size) { this->add_last(dato,name); return; } //para agregar al final
@@ -443,7 +445,73 @@ void ListaDoble<T>::graph()
 
 }
 
+template <class T>
+void ListaDoble <T>::graph_back_front()
+{
+	string graf = "digraph { \n";
+	graf = graf + "node[shape=box, width = 2.5, height = .75 ]; \n";
+	Nodo *aux = this->last; //apunta al ultimo par recorrer desde el final
+	int x = 0;
+	while (x != this->size) { //recorre alrevez 1 vez
+		if (x == 4) { break; }
+		if (x == this->size) { break; }
+		if (aux->getBefore() == 0) { break; }
+		//cout << aux->getDato() << endl;// imprime
+		graf = graf + "\"" + to_string(x+1)+": "+ aux->getName() + "\"";
+		graf = graf + "->";
+		graf = graf + "\"" + to_string(x+2) + ": "+ aux->getBefore()->getName() + "\"";
+		graf = graf + "\n";
+		aux = aux->getBefore();// apunta al anterior para recorrer
+		x++;
+	}
 
+	graf = graf + "\n";
+	graf = graf + "}";
+
+	ofstream g("graficaTopAlb.dot");
+	//cout << graf << endl;
+	g << graf;
+	g.close();
+	system("dot -Tpng graficaTopAlb.dot -o grafTopAlb.png");
+	system("grafTopAlb.png");
+
+
+
+}
+
+template <class T>
+void ListaDoble <T>::graph_back_front_Art() 
+{
+	string graf = "digraph { \n";
+	graf = graf + "node[shape=box, width = 2.5, height = .75 ]; \n";
+	Nodo *aux = this->last; //apunta al ultimo par recorrer desde el final
+	int x = 0;
+	while (x != this->size) { //recorre alrevez 1 vez
+		if (x == 4) { break; }
+		if (x == this->size) { break; }
+		if (aux->getBefore() == 0) { break; }
+		//cout << aux->getDato() << endl;// imprime
+		graf = graf + "\"" + to_string(x + 1) + ": " + aux->getName() + "\"";
+		graf = graf + "->";
+		graf = graf + "\"" + to_string(x + 2) + ": " + aux->getBefore()->getName() + "\"";
+		graf = graf + "\n";
+		aux = aux->getBefore();// apunta al anterior para recorrer
+		x++;
+	}
+
+	graf = graf + "\n";
+	graf = graf + "}";
+
+	ofstream g("graficaTopArt.dot");
+	//cout << graf << endl;
+	g << graf;
+	g.close();
+	system("dot -Tpng graficaTopArt.dot -o grafTopArt.png");
+	system("grafTopArt.png");
+
+
+
+}
 
 #endif // ListaDoble_H_INCLUDED
 

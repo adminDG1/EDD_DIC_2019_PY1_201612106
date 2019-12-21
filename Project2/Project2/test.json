@@ -41,6 +41,44 @@
               }
             ]
           }
+          ,
+          {
+            "Name": "EraseUna",
+            "Month": "Abril",
+            "Year": "2018",
+            "Songs" : [
+              {
+                "Name": "On My Teeth",
+                "File": "OnMyTeeth.mp3",
+                "Rating": "32.0"
+              }
+              ,
+              {
+                "Name": "Rapture",
+                "File": "Rapture.mp3",
+                "Rating": "1.0"
+              }
+            ]
+          }
+          ,
+          {
+            "Name": "Meme",
+            "Month": "Julio",
+            "Year": "2012",
+            "Songs" : [
+              {
+                "Name": "On My Teeth",
+                "File": "OnMyTeeth.mp3",
+                "Rating": "1.0"
+              }
+              ,
+              {
+                "Name": "Rapture",
+                "File": "Rapture.mp3",
+                "Rating": "2.0"
+              }
+            ]
+          }
         ]
       }
     }

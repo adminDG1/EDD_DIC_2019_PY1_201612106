@@ -1,16 +1,37 @@
 digraph { 
 node[shape=box3d, style=filled ]; 
 0[fillcolor="#1EB3C5" pos=" 0,0!"];
-0->2019; 
-0->Septiembre; 
-Septiembre[fillcolor="#1EC59E" pos=" 0,-9!"];
-Septiembre->0; 
-Septiembre->"Shaped By Fire"; 
-2019[fillcolor="#1EC59E" pos=" 1,0!"];
-2019->0; 
-2019->"Shaped By Fire"; 
-"Shaped By Fire"[fillcolor="#F1F116" pos=" 1,-9!"];
-"Shaped By Fire"->2019; 
-"Shaped By Fire"->Septiembre; 
+0->2004; 
+0->Abril; 
+Abril[fillcolor="#1EC59E" pos=" 0,-4!"];
+Abril->0; 
+Abril->"Erase Me"; 
+Abril->Julio; 
+Julio[fillcolor="#1EC59E" pos=" 0,-7!"];
+Julio->Abril; 
+Julio->"They're Only Chasing Safety"; 
+2004[fillcolor="#1EC59E" pos=" 1,0!"];
+2004->0; 
+2004->2012; 
+2004->"They're Only Chasing Safety"; 
+"They're Only Chasing Safety"[fillcolor="#F1F116" pos=" 1,-7!"];
+"They're Only Chasing Safety"->2004; 
+"They're Only Chasing Safety"->Julio; 
+"They're Only Chasing Safety"->"Meme"; 
+2012[fillcolor="#1EC59E" pos=" 2,0!"];
+2012->2004; 
+2012->2018; 
+2012->"Meme"; 
+"Meme"[fillcolor="#F1F116" pos=" 2,-7!"];
+"Meme"->2012; 
+"Meme"->"They're Only Chasing Safety"; 
+2018[fillcolor="#1EC59E" pos=" 3,0!"];
+2018->2012; 
+2018->"Erase Me"; 
+"Erase Me"[fillcolor="#F1F116" pos=" 3,-4!"];
+"Erase Me"->2018; 
+"Erase Me"->Abril; 
+"Erase Me"->"EraseUna"; 
+"EraseUna"->"Erase Me"; 
 
 }

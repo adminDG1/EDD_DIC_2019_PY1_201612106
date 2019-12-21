@@ -704,10 +704,11 @@ public:
 
 	ListaDoble<Album> *obtenerTop5()
 	{
+		ListaDoble<Album> *ls = new ListaDoble<Album>();
 		try
 		{
 
-			ListaDoble<Album> *ls = new ListaDoble<Album>();
+
 
 			Nodo* aux = this->cabecera->getSiguiente(); //empieza apuntando al primero par recorrer
 
@@ -726,23 +727,30 @@ public:
 					cout << "Year: " << aux2->getAlbum()->getAno() << endl;
 					cout << "Month: " << aux2->getAlbum()->getMonth() << endl;
 					cout << "-------------------------------------------" << endl; */
-					
 					if (ls->getsize() == 0)
 					{
 						ls->add_at(aux2->getAlbum(),aux2->getAlbum()->getName(),0);
+						//cout << ls->get_element_at(0)->getName()<<"ls"<<endl;
 					}
 					else{ 
+	
 						int cont = 0;
 						while (cont <= ls->getsize())
 						{
 
-							if (cont == ls->getsize()) { ls->add_at(aux2->getAlbum(), aux2->getAlbum()->getName(),cont); break; }
-							if (aux2->getAlbum()->getRating() < ls->get_element_at(cont)->getRating())
-							{
-								ls->add_at(aux2->getAlbum(), aux2->getAlbum()->getName(),cont);
-								break;
+							if (cont == ls->getsize()) { ls->add_at(aux2->getAlbum(), aux2->getAlbum()->getName(),cont); break; }//final
+							else {
+								if (aux2->getAlbum()->getRating() < ls->get_element_at(cont)->getRating())
+								{
+									ls->add_at(aux2->getAlbum(), aux2->getAlbum()->getName(), cont);
+									break;
+								}
+								else if (aux2->getAlbum()->getRating() == ls->get_element_at(cont)->getRating())
+								{
+									ls->add_at(aux2->getAlbum(), aux2->getAlbum()->getName(), cont);
+									break;
+								}
 							}
-							
 							cont++;
 						}
 					}
@@ -766,12 +774,19 @@ public:
 								{
 
 									if (cont == ls->getsize()) { ls->add_at(aux3->getAlbum(), aux3->getAlbum()->getName(), cont); break; }
-									if (aux3->getAlbum()->getRating() < ls->get_element_at(cont)->getRating())
-									{
-										ls->add_at(aux3->getAlbum(), aux3->getAlbum()->getName(), cont);
-										break;
-									}
+									else {
+										if (aux3->getAlbum()->getRating() < ls->get_element_at(cont)->getRating())
+										{
+											ls->add_at(aux3->getAlbum(), aux3->getAlbum()->getName(), cont);
+											break;
+										}
+										else if (aux3->getAlbum()->getRating() == ls->get_element_at(cont)->getRating())
+										{
+											ls->add_at(aux3->getAlbum(), aux2->getAlbum()->getName(), cont);
+											break;
 
+										}
+									}
 									cont++;
 								}
 							}
@@ -786,7 +801,7 @@ public:
 				aux = aux->getSiguiente(); // apunta al siguiente para recorrer
 
 			}//fin while x
-			ls->print_front_back();
+
 			return ls;
 		}
 		catch (const std::exception&)

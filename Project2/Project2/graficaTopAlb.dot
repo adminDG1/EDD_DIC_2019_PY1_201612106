@@ -1,0 +1,7 @@
+digraph { 
+node[shape=box, width = 2.5, height = .75 ]; 
+"1: EraseUna"->"2: Erase Me"
+"2: Erase Me"->"3: They're Only Chasing Safety"
+"3: They're Only Chasing Safety"->"4: Meme"
+
+}
